@@ -1,0 +1,57 @@
+﻿<div class="container" ng-controller="TodosController">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Active</h3>
+            <div class="list-group">
+                <div class="list-group-item" ng-repeat="todo in activeTodos()">
+                    <span class="glyphicon glyphicon-refresh spinning" ng-show="todo.updating"></span>
+                    <div class="icon-group">
+                        <span class="icon clickable glyphicon glyphicon-list" ng-click="toggleExpand(todo)" ng-show="!todo.updating && todo.details.length > 0"></span>
+                        <span class="icon clickable glyphicon glyphicon-trash" ng-click="deleteTodo(todo.id)" ng-show="!todo.updating"></span>
+                        <span class="icon clickable glyphicon glyphicon-check" ng-click="completeTodo(todo.id)" ng-show="!todo.updating"></span>
+                    </div>
+                    <span>{{todo.task}}</span>
+                    <span class="badge" ng-class="{pastDue: isPastDue(todo.dueDate)}">{{todo.dueDate.format('MMMM Do YYYY')}}</span>
+                    <div ng-if="todo.showDetails">
+                        <b>Details: </b>{{todo.details}}
+                    </div>
+                </div>
+            </div>
+            <h3>Complete</h3>
+            <div class="list-group">
+                <div class="list-group-item" ng-repeat="todo in completedTodos()">
+                    <span class="glyphicon glyphicon-refresh spinning" ng-show="todo.updating"></span>
+                    <div class="icon-group">
+                        <span class="icon clickable glyphicon glyphicon-list" ng-click="toggleExpand(todo)" ng-show="!todo.updating && todo.details.length > 0"></span>
+                        <span class="icon clickable glyphicon glyphicon-trash" ng-click="deleteTodo(todo.id)" ng-show="!todo.updating"></span>
+                    </div>
+                    <span>{{todo.task}}</span>
+                    <div ng-if="todo.showDetails">
+                        <b>Details: </b>{{todo.details}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3>Create Task</h3>
+            <form>
+                <div class="form-group" ng-class="{'has-error': newTodo.hasTaskError}">
+                    <label for="taskInput">Task</label>
+                    <input id="taskInput" type="text" class="form-control" placeholder="Task" ng-model="newTodo.task" />
+                    <span class="help-block" ng-show="newTodo.hasTaskError">Task must have a value</span>
+                </div>
+                <div class="form-group" ng-class="{'has-error': newTodo.hasDueDateError}">
+                    <label for="dateInput">Due Date</label>
+                    <input id="dateInput" type="datetime" class="form-control" placeholder="MM/DD/YYYY" ng-model="newTodo.dueDate" />
+                    <span class="help-block" ng-show="newTodo.hasDueDateError">Due Date must have a value and it must be a valid date</span>
+                </div>
+                <div class="form-group">
+                    <label for="detailsText">Details</label>
+                    <br />
+                    <textarea class="form-control" id="detailsText" ng-model="newTodo.details"></textarea>
+                </div>
+                <button type="submit" class="btn btn-default" ng-click="createTodo()">Create</button>
+            </form>
+        </div>
+    </div>
+</div>
